@@ -56,11 +56,12 @@ button{font:inherit}
 .vid:focus-visible{outline:2px solid #85B7EB;outline-offset:3px}
 
 /* навигация */
-.nav{background:#111111;border-bottom:1px solid #34373D}
-.nav .in{display:flex;gap:6px;padding-block:10px;overflow-x:auto;scrollbar-width:none}
+.nav{background:#111111 linear-gradient(#85B7EB,#85B7EB) left bottom/100% 2px no-repeat}
+.nav .in{display:flex;gap:8px;padding-top:8px;align-items:flex-end;overflow-x:auto;scrollbar-width:none}
 .nav .in::-webkit-scrollbar{display:none}
-.nav a{flex:none;font-family:var(--display);font-weight:800;font-size:20px;text-decoration:none;color:#F2F0EC;border:1.5px solid #34373D;height:40px;display:grid;place-items:center;padding:0 14px;text-transform:uppercase}
-.nav a:hover,.nav a:focus-visible{border-color:#85B7EB;color:#85B7EB;outline:none}
+.nav a{flex:none;font-family:var(--display);font-weight:900;font-size:clamp(28px,7.5vw,36px);line-height:1;text-decoration:none;text-transform:uppercase;color:#85B7EB;background:#1A1B1E;border:2px solid #85B7EB;border-bottom:0;padding:14px 22px 12px;border-bottom:2px solid #85B7EB}
+.nav a.on{background:#111111;border-bottom-color:#111111}
+.nav a:hover,.nav a:focus-visible{background:#85B7EB;color:#0D1824;outline:none}
 
 /* схема */
 .plate{display:inline-block;background:#85B7EB;color:#0D1824;font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:22px;line-height:1;padding:7px 9px 6px}
@@ -178,7 +179,7 @@ button{font:inherit}
     </header>
   </div>
 
-  <nav class="nav" aria-label="Разделы"><div class="in"><a href="#scheme">Схема</a><a href="#train">Тренажёр</a></div></nav>
+  <nav class="nav" aria-label="Разделы"><div class="in"><a href="#scheme" class="on">Схема</a><a href="#train">Тренажёр</a></div></nav>
 
   <section class="floor" id="scheme">
     <div class="in">
