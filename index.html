@@ -275,17 +275,22 @@ function plain(s){return s.replace(/[{}]/g,'')}
 function mark(s){return esc(s).replace(/\{([^}]*)\}/g,'<span class="h">$1</span>')}
 function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 
-/* озвучка: только записи Артёма. Пока AUDIO пустой, кнопки звука нет. */
-const CLIPS={};
-function clip(id){ if(!CLIPS[id]){ const a=new Audio(AUDIO[id]); a.preload='auto'; CLIPS[id]=a; } return CLIPS[id]; }
-let cur=null;
+/* озвучка: только записи Артёма, один плеер на всю страницу (так надёжнее на iPhone) */
+const player=new Audio(); player.preload='auto';
+let curBtn=null;
+player.onended=player.onpause=()=>{ if(curBtn){ curBtn.classList.remove('on'); curBtn=null; } };
 function speak(id,text,btn){
   if(!AUDIO[id]) return;
-  if(cur){ try{cur.pause()}catch(e){} }
-  try{ cur=clip(id); cur.currentTime=0; if(btn){btn.classList.add('on'); cur.onended=()=>btn.classList.remove('on');}
-    const p=cur.play(); if(p&&p.catch) p.catch(()=>{ if(btn) btn.classList.remove('on'); }); }catch(e){}
+  try{
+    player.pause();
+    const url=new URL(AUDIO[id],location.href).href;
+    if(player.src!==url){ player.src=url; } else { player.currentTime=0; }
+    curBtn=btn||null; if(btn) btn.classList.add('on');
+    const p=player.play(); if(p&&p.catch) p.catch(()=>{ if(btn) btn.classList.remove('on'); });
+  }catch(e){ if(btn) btn.classList.remove('on'); }
 }
-window.addEventListener('load',()=>{ const k=Object.keys(AUDIO); let i=0; (function n(){ if(i<k.length){ clip(k[i++]); setTimeout(n,60); } })(); });
+/* прогреваем кэш, чтобы звук начинался сразу */
+window.addEventListener('load',()=>{ const u=Object.values(AUDIO); let i=0; (function n(){ if(i<u.length){ fetch(u[i++]).catch(()=>{}); setTimeout(n,80); } })(); });
 const ICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor" stroke="none"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12" stroke-linecap="round"/></svg>';
 
 /* тренажёр */
