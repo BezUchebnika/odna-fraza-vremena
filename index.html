@@ -293,6 +293,7 @@ let order=[], qi=0, score=0, misses=[];
 function start(list){ order=shuffle(list||Q.map((_,i)=>i)); qi=0; score=0; misses=[]; render(); }
 function optBtn(key,lab){return `<button class="opt" data-k="${key}">${esc(lab)}</button>`}
 function lock(wrap,correct,picked){wrap.querySelectorAll('.opt').forEach(x=>{x.disabled=true; if(x.dataset.k===correct) x.classList.add('right'); else if(x===picked) x.classList.add('wrong'); else x.classList.add('dim');});}
+function toTop(){ const box=document.getElementById('quiz'); const r=box.getBoundingClientRect(); if(Math.abs(r.top-12)>4) window.scrollTo({top:window.scrollY+r.top-12,behavior:'smooth'}); }
 function render(){
   const box=document.getElementById('quiz');
   if(qi>=order.length){
@@ -316,6 +317,7 @@ function render(){
     <div class="step" id="st2"></div><div id="out"></div>`;
   const st1=box.querySelector('#st1');
   st1.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{
+    toTop();
     const ok=b.dataset.k===t;
     if(!ok){ firstTry=false; st1.insertAdjacentHTML('beforeend',`<div class="hint">${esc(H[i][0])}</div>`); }
     lock(st1,t,b); step2();
@@ -342,7 +344,7 @@ function render(){
     </div>
     <button class="btn wide next" id="next" style="margin-top:10px">${qi+1<order.length?'Дальше':'Результат'}</button>`;
     const sq=out.querySelector('#sq'); if(sq){ sq.onclick=()=>speak('q'+i,plain(q[4]),sq); speak('q'+i,plain(q[4]),sq); }
-    const nx=out.querySelector('#next'); nx.onclick=()=>{qi++; render(); const r=box.getBoundingClientRect(); if(r.top<0||r.top>innerHeight*.4) box.scrollIntoView({block:'start',behavior:'smooth'});};
+    const nx=out.querySelector('#next'); nx.onclick=()=>{qi++; render(); toTop();};
     const r=nx.getBoundingClientRect(); if(r.bottom>innerHeight) nx.scrollIntoView({block:'end',behavior:'smooth'});
   }
 }
