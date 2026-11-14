@@ -320,7 +320,7 @@ function render(){
       <div class="score">${score}<span>/${n}</span></div>
       <p>${score===n?'Без единой ошибки. Схема у вас работает.':score>=n*.8?'Отличный результат. Посмотрите фразы, где была ошибка.':'Повторите фразы ниже и пройдите их ещё раз.'}</p>
       ${misses.length?`<div class="misses">${misses.map(i=>`<div><b>${esc(plain(Q[i][4]))}</b><span>${esc(Q[i][1])} · ${TENSE[Q[i][2]][Q[i][3]]}</span></div>`).join('')}</div>`:''}
-      <div class="row">${misses.length?'<button class="btn primary" id="rep">Повторить мои ошибки</button>':''}<button class="btn${misses.length?'':' primary'}" id="again">Пройти заново</button></div>`;
+      <div class="row">${misses.length?'<button class="btn primary" id="rep">Пройти ещё раз только ошибки</button>':''}<button class="btn${misses.length?'':' primary'}" id="again">Пройти всё заново</button></div>`;
     const m=misses.slice(); const r=box.querySelector('#rep'); if(r) r.onclick=()=>start(m);
     box.querySelector('#again').onclick=()=>start(); return;
   }
