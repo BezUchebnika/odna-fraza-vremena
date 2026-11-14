@@ -276,22 +276,30 @@ function plain(s){return s.replace(/[{}]/g,'')}
 function mark(s){return esc(s).replace(/\{([^}]*)\}/g,'<span class="h">$1</span>')}
 function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 
-/* озвучка: только записи Артёма, один плеер на всю страницу (так надёжнее на iPhone) */
-const player=new Audio(); player.preload='auto';
-let curBtn=null;
-player.onended=player.onpause=()=>{ if(curBtn){ curBtn.classList.remove('on'); curBtn=null; } };
+/* озвучка: только записи Артёма. Играем через Web Audio: на iPhone и во встроенном браузере Telegram это надёжнее обычного плеера. */
+const AC=window.AudioContext||window.webkitAudioContext;
+let ctx=null, src=null, curBtn=null;
+const BUF={}, RAW={};
+function rawOf(id){ if(!RAW[id]) RAW[id]=fetch(AUDIO[id]).then(r=>r.arrayBuffer()); return RAW[id]; }
+function bufOf(id){ if(!BUF[id]) BUF[id]=rawOf(id).then(ab=>new Promise((ok,no)=>ctx.decodeAudioData(ab.slice(0),ok,no))); return BUF[id]; }
+function unlock(){ if(!AC) return; if(!ctx){ ctx=new AC(); } if(ctx.state!=='running'){ try{ctx.resume()}catch(e){} }
+  /* короткая тишина внутри нажатия окончательно «будит» звук на iOS */
+  try{ const b=ctx.createBuffer(1,1,22050), s=ctx.createBufferSource(); s.buffer=b; s.connect(ctx.destination); s.start(0); }catch(e){} }
+document.addEventListener('touchend',unlock,{passive:true}); document.addEventListener('click',unlock);
+function stopCur(){ if(src){ try{src.onended=null; src.stop()}catch(e){} src=null; } if(curBtn){ curBtn.classList.remove('on'); curBtn=null; } }
+const fallback=new Audio();
 function speak(id,text,btn){
   if(!AUDIO[id]) return;
-  try{
-    player.pause();
-    const url=new URL(AUDIO[id],location.href).href;
-    if(player.src!==url){ player.src=url; } else { player.currentTime=0; }
-    curBtn=btn||null; if(btn) btn.classList.add('on');
-    const p=player.play(); if(p&&p.catch) p.catch(()=>{ if(btn) btn.classList.remove('on'); });
-  }catch(e){ if(btn) btn.classList.remove('on'); }
+  stopCur(); try{fallback.pause()}catch(e){}
+  if(btn){ btn.classList.add('on'); curBtn=btn; }
+  if(!AC){ fallback.src=AUDIO[id]; const p=fallback.play(); if(p&&p.catch) p.catch(()=>{}); fallback.onended=()=>btn&&btn.classList.remove('on'); return; }
+  unlock();
+  bufOf(id).then(buf=>{ if(curBtn!==btn && btn) return; stopCur(); if(btn){btn.classList.add('on'); curBtn=btn;}
+    const s=ctx.createBufferSource(); s.buffer=buf; s.connect(ctx.destination); s.onended=()=>{ if(src===s){ src=null; if(curBtn){curBtn.classList.remove('on'); curBtn=null;} } }; src=s; s.start(0); })
+   .catch(()=>{ if(btn) btn.classList.remove('on'); fallback.src=AUDIO[id]; const p=fallback.play(); if(p&&p.catch) p.catch(()=>{}); });
 }
-/* прогреваем кэш, чтобы звук начинался сразу */
-window.addEventListener('load',()=>{ const u=Object.values(AUDIO); let i=0; (function n(){ if(i<u.length){ fetch(u[i++]).catch(()=>{}); setTimeout(n,80); } })(); });
+/* заранее скачиваем записи, чтобы звук начинался сразу */
+window.addEventListener('load',()=>{ const k=Object.keys(AUDIO); let i=0; (function n(){ if(i<k.length){ rawOf(k[i++]).catch(()=>{}); setTimeout(n,80); } })(); });
 const ICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor" stroke="none"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12" stroke-linecap="round"/></svg>';
 
 /* тренажёр */
