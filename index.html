@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="ru"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Одна фраза во всех временах</title>
+<meta name="description" content="Тренажёр BezUchebnika: схема английских времён из двух вопросов, когда и что важно. Ситуации из поездок.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Sans+Extra+Condensed:wght@700;800;900&family=Golos+Text:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+:root{
+  --bg:#111111; --surface:#1A1B1E; --surface-2:#232529; --line:#34373D;
+  --fg:#F2F0EC; --muted:#A8A59D; --accent:#85B7EB; --accent-ink:#0D1824;
+  --ok:#9FD3AA; --bad:#EBA79C; --btn-bg:#85B7EB; --btn-fg:#0D1824;
+  --display:'Fira Sans Extra Condensed','Arial Narrow',Arial,sans-serif;
+  --body:'Golos Text',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
+  color-scheme:dark;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+*{box-sizing:border-box}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px);scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--body);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:#111111}
+.in{max-width:760px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.mono{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.d{font-family:var(--display);font-weight:900;text-transform:uppercase;line-height:1;letter-spacing:.005em}
+h1,h2,h3{margin:0;text-wrap:balance}
+p{margin:0}
+.hl{color:var(--accent)}
+.h{color:var(--accent)}
+button{font:inherit}
+[hidden]{display:none!important}
+
+.floor{background:var(--bg);color:var(--fg);padding-block:56px 72px}
+.floor .in{display:grid;gap:24px}
+.floor .in>*{min-width:0}
+.light{--bg:#ECE9E2;--surface:#FFFFFF;--surface-2:#E0DCD3;--line:#C9C4B8;--fg:#141414;--muted:#5E5B54;--accent:#2F6EAD;--accent-ink:#FFFFFF;--ok:#2E7D47;--bad:#B24A3A;--btn-bg:#141414;--btn-fg:#F2F0EC;color-scheme:light}
+.fhead{display:grid;gap:10px}
+.fhead h2{font-size:clamp(44px,11vw,72px)}
+.fhead p{font-size:17px;color:var(--muted);max-width:32em}
+
+/* шапка */
+.top{display:flex;justify-content:flex-end;padding-top:28px}
+.toplink{color:var(--muted);text-decoration:none;border-bottom:1px solid var(--line);padding-bottom:2px}
+.toplink:hover,.toplink:focus-visible{color:var(--accent);border-color:var(--accent);outline:none}
+.hero{padding-block:32px 40px;display:grid;gap:22px}
+.hero>*{min-width:0}
+.hero h1{font-size:clamp(52px,13.5vw,112px)}
+.hero h1 .hl{display:block}
+.lead{font-size:19px;max-width:30em}
+.vid{display:grid;gap:10px;text-decoration:none;background:#ECE9E2;color:#141414;padding:20px 18px}
+.vid .mono{color:#2F6EAD;font-weight:600}
+.vid .vt{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:clamp(28px,7.5vw,38px);line-height:1.05}
+.vid .vgo{justify-self:start;background:#111111;color:#85B7EB;font-weight:600;font-size:15px;padding:10px 16px;margin-top:4px}
+.vid:hover .vgo,.vid:focus-visible .vgo{color:#F2F0EC}
+.vid:focus-visible{outline:2px solid #85B7EB;outline-offset:3px}
+
+/* навигация */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:#111111;border-bottom:1px solid #34373D}
+.nav .in{display:flex;gap:6px;padding-block:10px;overflow-x:auto;scrollbar-width:none}
+.nav .in::-webkit-scrollbar{display:none}
+.nav a{flex:none;font-family:var(--display);font-weight:800;font-size:20px;text-decoration:none;color:#F2F0EC;border:1.5px solid #34373D;height:40px;display:grid;place-items:center;padding:0 14px;text-transform:uppercase}
+.nav a:hover,.nav a:focus-visible{border-color:#85B7EB;color:#85B7EB;outline:none}
+
+/* схема */
+.plate{display:inline-block;background:#85B7EB;color:#0D1824;font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:22px;line-height:1;padding:7px 9px 6px}
+.qs{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:24px;line-height:1}
+.qs .n{width:32px;height:32px;border:2px solid #F2F0EC;display:grid;place-items:center;font-size:18px;flex:none}
+.qs .arr{flex:1;height:2px;background:#F2F0EC;position:relative;min-width:24px}
+.qs .arr::after{content:"";position:absolute;right:0;top:-6px;width:12px;height:12px;border-top:2px solid #F2F0EC;border-right:2px solid #F2F0EC;transform:rotate(45deg);transform-origin:center}
+.scheme{display:grid;background:var(--surface);padding:22px 20px}
+.srow{display:grid;grid-template-columns:172px repeat(3,minmax(0,1fr));gap:20px;padding:20px 0;border-top:1px solid var(--line);align-items:start}
+.srow.head{border-top:0;padding-top:0;align-items:end}
+.srow.head>.qs{padding-bottom:6px}
+.hcols{grid-column:2/-1;display:grid;gap:14px}
+.cols3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;justify-items:start}
+.srow.fut{grid-template-columns:172px repeat(2,minmax(0,1fr))}
+.lbl{padding-top:2px}
+.cell{display:grid;gap:8px;align-content:start;min-width:0}
+.cell .cat{display:none}
+.srow.fut .cell .cat{display:inline-block;justify-self:start;background:#85B7EB;color:#0D1824;font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:20px;line-height:1;padding:6px 8px 5px}
+.cx{display:grid;gap:4px;min-width:0}
+.cell .en{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:28px;line-height:1.02;overflow-wrap:break-word}
+.cell .ru{font-size:16px;color:#E4E1DA;line-height:1.35}
+.cell .tn{font-size:14px;color:var(--muted)}
+@media (max-width:700px){
+  .scheme{padding:18px 16px}
+  .srow,.srow.fut{grid-template-columns:1fr;gap:0;padding:18px 0 4px}
+  .srow.head{display:none}
+  .lbl{padding:0 0 10px}
+  .cell{grid-template-columns:104px minmax(0,1fr);gap:12px;padding:12px 0;border-top:1px solid var(--line)}
+  .cell .cat,.srow.fut .cell .cat{display:block;justify-self:stretch;background:transparent;padding:6px 0 0;font-family:var(--mono);font-weight:500;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#85B7EB;line-height:1.3}
+  .cell .en{font-size:26px}
+  .cell .ru{font-size:15px}
+  .cell .tn{font-size:13px}
+}
+@media (max-width:360px){.cell{grid-template-columns:84px minmax(0,1fr)}.cell .en{font-size:23px}}
+.mobq{display:none}
+.mobq .qs{font-size:20px;line-height:1.15;align-items:flex-start}
+.mobq .qs .n{margin-top:-4px}
+@media (max-width:700px){.mobq{display:grid;gap:8px;margin-bottom:4px}.mobq .qs{font-size:22px}}
+.simp{font-size:16px;line-height:1.5;color:#F0643C;max-width:36em;margin-top:-8px}
+.helpers{display:grid;gap:10px;background:var(--surface);padding:18px}
+.helpers div{display:grid;grid-template-columns:110px 1fr;gap:12px;align-items:baseline;border-bottom:1px solid var(--line);padding-bottom:10px}
+.helpers div:last-child{border-bottom:0;padding-bottom:0}
+.helpers b{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:22px;color:#85B7EB;line-height:1.1}
+.helpers span{font-size:16px}
+
+/* тренажёр */
+.card{background:var(--surface);padding:16px 16px 18px;display:grid;gap:12px;scroll-margin-top:64px}
+.card>*{min-width:0}
+.qtop{display:flex;justify-content:space-between;gap:12px;align-items:center}
+.bar{height:4px;background:var(--surface-2)}
+.bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .25s}
+.scene{font-size:15px;color:var(--muted);line-height:1.35}
+.qru{font-family:var(--display);font-weight:800;font-size:clamp(24px,6.4vw,32px);line-height:1.08;text-transform:uppercase}
+.step{display:grid;gap:6px}
+.step .sh{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.step .sh b{color:var(--fg);font-weight:500}
+.opts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.opts.two{grid-template-columns:1fr 1fr}
+.opt{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:clamp(17px,4.6vw,21px);line-height:1.05;text-align:center;padding:12px 4px;min-height:48px;cursor:pointer;border:1.5px solid var(--line);background:transparent;color:var(--fg)}
+.opt:hover{border-color:var(--fg)}
+.opt:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.opt.right{background:#D3E7D6;border-color:#4E8B5E;color:#163A20}
+.opt.wrong{background:#F1D6D0;border-color:#B5594A;color:#5C1D12}
+.opt[disabled]{cursor:default}
+.opt.dim{opacity:.45}
+.hint{font-size:15px;line-height:1.4;color:#8E3527;font-weight:500}
+.res{display:grid;gap:6px;background:#111111;color:#F2F0EC;padding:14px 14px 14px}
+.res .rtop{display:flex;gap:10px;align-items:flex-start}
+.res .ph{flex:1;min-width:0;font-family:var(--display);font-weight:800;font-size:clamp(23px,6.2vw,30px);line-height:1.08}
+.res .ph .h{color:#85B7EB}
+.res .tname{font-family:var(--mono);font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#85B7EB}
+.res .why{font-size:15px;line-height:1.45;color:#E4E1DA}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.btn{font-weight:600;font-size:16px;padding:12px 18px;cursor:pointer;border:1.5px solid var(--fg);background:transparent;color:var(--fg)}
+.btn.primary{background:var(--btn-bg);border-color:var(--btn-bg);color:var(--btn-fg)}
+.btn.wide{width:100%}
+.btn.next{background:#FFFFFF;color:#141414;border:1.5px solid #141414}
+.btn.next:hover{background:#F2F0EC}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.say{width:42px;height:42px;flex:none;border:1.5px solid #34373D;background:transparent;color:#F2F0EC;display:grid;place-items:center;cursor:pointer;padding:0}
+.say:hover,.say:focus-visible,.say.on{border-color:#85B7EB;color:#85B7EB;outline:none}
+.say svg{width:20px;height:20px}
+.score{font-family:var(--display);font-weight:900;font-size:clamp(64px,18vw,110px);line-height:.9}
+.score span{color:var(--accent)}
+.misses{display:grid;border-top:1px solid var(--line)}
+.misses div{display:grid;gap:1px;padding:10px 0;border-bottom:1px solid var(--line)}
+.misses b{font-weight:600;font-size:17px}
+.misses span{font-size:14px;color:var(--muted)}
+
+/* финал */
+.cta{background:#85B7EB;color:#0D1824;padding-block:56px 64px}
+.cta .in{display:grid;gap:14px}
+.cta h3{font-size:clamp(38px,10vw,56px)}
+.cta p{max-width:32em}
+.cta a{color:inherit;font-weight:600}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+@media (max-width:600px){.helpers div{grid-template-columns:1fr;gap:2px}}
+@media (max-width:700px){.srow:nth-child(2){border-top:0;padding-top:0}}
+.srow .lbl .plate{font-size:20px}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="in">
+    <div class="top"><a class="mono toplink" href="https://t.me/BezUchebnika" target="_blank" rel="noopener">BezUchebnika ↗</a></div>
+    <header class="hero">
+      <h1 class="d">Одна фраза<span class="hl">во всех временах</span></h1>
+      <p class="lead">Английское время не нужно угадывать. Ответьте на два вопроса, когда и что важно, и сразу увидите, какое время получилось и почему.</p>
+      <a class="vid" data-video href="#" target="_blank" rel="noopener" hidden>
+        <span class="mono">Сначала посмотрите видео</span>
+        <span class="vt">Одна фраза во всех временах</span>
+        <span style="font-size:15px;line-height:1.5;color:#3A3833">Провожу фразу «я за рулём» через все времена, которые реально нужны в разговоре, и собираю их в одну схему.</span>
+        <span class="vgo">Смотреть на YouTube ↗</span>
+      </a>
+    </header>
+  </div>
+
+  <nav class="nav" aria-label="Разделы"><div class="in"><a href="#scheme">Схема</a><a href="#train">Тренажёр</a></div></nav>
+
+  <section class="floor" id="scheme">
+    <div class="in">
+      <div class="fhead"><h2 class="d">Схема из 2 вопросов</h2><p>Сначала спросите себя «когда?», потом «что важно?».</p></div>
+
+      <div class="mobq"><div class="qs"><span class="n">1</span>Когда? Настоящее, прошлое, будущее</div><div class="qs"><span class="n">2</span>Что важно? Факт, процесс, результат</div></div>
+<div class="scheme">
+<div class="srow head"><div class="qs"><span class="n">1</span>Когда?</div><div class="hcols"><div class="qs"><span class="n">2</span>Что важно?<span class="arr"></span></div><div class="cols3"><span class="plate">Факт</span><span class="plate">Процесс</span><span class="plate">Результат</span></div></div></div>
+<div class="srow"><div class="lbl"><span class="plate">Настоящее</span></div><div class="cell"><span class="cat">Факт</span><div class="cx"><span class="en">I drive</span><span class="ru">Я вожу машину</span><span class="tn">Present Simple</span></div></div><div class="cell"><span class="cat">Процесс</span><div class="cx"><span class="en">I<span class="h">'m</span> driv<span class="h">ing</span></span><span class="ru">Я за рулём</span><span class="tn">Present Continuous</span></div></div><div class="cell"><span class="cat">Результат</span><div class="cx"><span class="en">I<span class="h">'ve</span> driven</span><span class="ru">Я уже проехал</span><span class="tn">Present Perfect</span></div></div></div>
+<div class="srow"><div class="lbl"><span class="plate">Прошлое</span></div><div class="cell"><span class="cat">Факт</span><div class="cx"><span class="en">I drove</span><span class="ru">Я ехал (факт)</span><span class="tn">Past Simple</span></div></div><div class="cell"><span class="cat">Процесс</span><div class="cx"><span class="en">I <span class="h">was</span> driv<span class="h">ing</span></span><span class="ru">Я ехал, когда…</span><span class="tn">Past Continuous</span></div></div><div class="cell"><span class="cat">Результат</span><div class="cx"><span class="en">I <span class="h">had</span> driven</span><span class="ru">Проехал до того</span><span class="tn">Past Perfect · реже</span></div></div></div>
+<div class="srow fut"><div class="lbl"><span class="plate">Будущее</span></div><div class="cell"><span class="cat">План</span><div class="cx"><span class="en">I<span class="h">'m going to</span> drive</span><span class="ru">Я поеду (решил заранее)</span></div></div><div class="cell"><span class="cat">Решение сейчас</span><div class="cx"><span class="en">I<span class="h">'ll</span> drive</span><span class="ru">Давай я поведу</span></div></div></div>
+</div>
+      <p class="simp">Это упрощённая схема. В ней самое нужное для разговора, но не все случаи. Остальное легко добавить, когда эта база заработает у вас сама.</p>
+
+      <div class="helpers">
+        <span class="mono">Помощник подсказывает, какой ответ вы выбрали</span>
+        <div><b>do, does, did</b><span>Факт. В утвердительной фразе прячется, выходит в вопросе и с «не». Do you drive? Does she drive? Did you drive there?</span></div>
+        <div><b>be + -ing</b><span>Процесс. I'm driving, I was driving.</span></div>
+        <div><b>have + V3</b><span>Результат или опыт: have и третья форма глагола. I've driven, I've never driven on the left.</span></div>
+        <div><b>going to, will</b><span>Будущее. План, это going to (в речи gonna). Решение прямо сейчас, это will. И после «думаю», «наверное» тоже обычно идёт will.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="floor light" id="train">
+    <div class="in">
+      <div class="fhead"><h2 class="d">Тренажёр</h2><p>26 ситуаций из поездок. Ответьте на два вопроса и посмотрите, какое время получилось.</p></div>
+      <div class="card" id="quiz" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="in">
+      <h3 class="d">Бесплатная экспресс-диагностика</h3>
+      <p>Короткая проверка всего английского. Она покажет, где у вас ломается речь и с чего начать. Диагностика и другие тренажёры бесплатно лежат в телеграм-канале BezUchebnika.</p>
+      <p><a href="https://t.me/BezUchebnika/155" target="_blank" rel="noopener">Как получить диагностику и тренажёры ↗</a></p>
+    </div>
+  </section>
+</div>
+
+<script>
+/* Ссылка на видео: вставить, когда видео выйдет. Пока пусто, блок скрыт. */
+const VIDEO = '';
+/* Записи Артёма: {id: 'audio/id.mp3'}. Пока пусто, звучит голос браузера. */
+const AUDIO = {};
+
+
+/* [ситуация, по-русски, когда (n/p/f), что важно (fact/proc/res/plan/dec), по-английски ({помощник}), почему] */
+const Q = [
+ ['Попутчик спрашивает, кто у вас обычно за рулём в поездках.','Обычно вожу я, жена не любит водить.','n','fact',"I usually drive. My wife {doesn't} like driving.",'Это про вас в целом, а не про эту минуту. Просто факт, поэтому обычный глагол. А в отрицании выходит does.'],
+ ['Рассказываете новым знакомым, как вы путешествуете.','В отпуске я всегда беру машину напрокат.','n','fact',"On vacation, I always rent a car.",'То, что вы делаете обычно. Факт, обычный глагол.'],
+ ['Друг предлагает вам сесть за руль вечером.','Я не вожу по ночам.','n','fact',"I {don't} drive at night.",'Ваше обычное правило, это факт. В отрицании выходит помощник do.'],
+ ['Спрашиваете на ресепшене про музей.','Во сколько открывается музей?','n','fact',"What time {does} the museum open?",'Расписание, это то, что бывает всегда. Факт. В вопросе выходит does.'],
+ ['Звонит коллега, а вы в дороге.','Не могу говорить, я за рулём.','n','proc',"I can't talk. I{'m} driv{ing}.",'Процесс идёт прямо в эту минуту. Значит, be и -ing.'],
+ ['Подруга пишет: «Ты где?»','Я лежу на пляже.','n','proc',"I{'m} ly{ing} on the beach.",'Прямо сейчас, процесс. Значит, be и -ing.'],
+ ['Администратор отеля спрашивает, нужна ли помощь.','Нет, спасибо, мы ждём такси.','n','proc',"No, thanks. We{'re} wait{ing} for a taxi.",'Ждёте прямо сейчас, это процесс. Значит, be и -ing.'],
+ ['Друзья зовут вечером поехать ещё в один город.','Нет, я сегодня уже проехал пятьсот километров.','n','res',"No, I{'ve} driven five hundred kilometers today.",'Неважно, когда вы ехали. Важно, что сейчас вы устали. Результат прошедшего действия важен сейчас, значит, have и третья форма.'],
+ ['Разговор о поездке в Лондон.','Я никогда не ездил по левой стороне.','n','res',"I{'ve} never driven on the left.",'Это ваш опыт на сегодняшний день. Значит, have и третья форма.'],
+ ['Друг зовёт вас в автопутешествие.','Ты когда-нибудь брал машину напрокат?','n','res',"{Have} you ever rented a car?",'Вопрос про опыт на сегодня. Значит, have и третья форма.'],
+ ['Друг спрашивает, были ли вы в Испании.','Да, я был там три раза.','n','res',"Yes, I{'ve} been there three times.",'Сколько раз за жизнь на сегодня, это опыт. Значит, have.'],
+ ['Друг рассказывает, что обожает Париж.','Сколько раз ты был в Париже?','n','res',"How many times {have} you been to Paris?",'Вопрос про опыт за всю жизнь на сегодня. Значит, have и третья форма.'],
+ ['Рассказываете о прошлом отпуске.','В прошлом году мы ездили на машине по Италии.','p','fact',"Last year we drove around Italy.",'Простой факт в прошлом, без связи с сегодняшним днём. Было и было.'],
+ ['Соседи по отелю спрашивают, давно ли вы здесь.','Мы приехали в понедельник.','p','fact',"We arrived on Monday.",'Есть «в понедельник», это момент в прошлом. Простой факт в прошлом, без связи с сегодняшним днём.'],
+ ['Друг рассказывает, что был в Севилье.','Ты ехал туда на машине?','p','fact',"{Did} you drive there?",'Факт в прошлом. В вопросе выходит did и забирает прошедшее время, поэтому drove возвращается в drive.'],
+ ['Рассказываете, как добирались.','Мы не брали машину, ездили на поезде.','p','fact',"We {didn't} rent a car. We took the train.",'Простой факт в прошлом. В отрицании выходит did.'],
+ ['Друг спрашивает, почему вы не ответили.','Я был за рулём, когда ты позвонил.','p','proc',"I {was} driv{ing} when you called.",'В прошлом шёл процесс, и в него вмешалось событие, звонок. Значит, was и -ing.'],
+ ['Рассказываете о вечере в Валенсии.','Мы ужинали, когда начался дождь.','p','proc',"We {were} hav{ing} dinner when it started to rain.",'Шёл процесс, ужин, и в него вмешался дождь. Значит, were и -ing.'],
+ ['Рассказываете о перелёте.','Я спал, когда самолёт приземлился.','p','proc',"I {was} sleep{ing} when the plane landed.",'Процесс в прошлом, в который вмешалось событие. Значит, was и -ing.'],
+ ['Рассказываете, почему опоздали.','Когда мы приехали на вокзал, поезд уже ушёл.','p','res',"When we got to the station, the train {had} already left.",'Результат к моменту в прошлом: поезд ушёл ещё до того, как вы приехали. Это Past Perfect, в живой речи он нужен реже.'],
+ ['Друзья спрашивают о ваших планах.','В субботу мы поедем на машине в Севилью.','f','plan',"On Saturday we{'re going to} drive to Seville.",'Вы решили заранее, это план. Самый универсальный вариант going to, в речи чаще gonna.'],
+ ['Обсуждаете поездку с семьёй.','Мы собираемся взять машину напрокат.','f','plan',"We{'re going to} rent a car.",'Решение уже принято, это план. Значит, going to.'],
+ ['Спрашиваете друга за ужином.','Что ты будешь делать завтра?','f','plan',"What {are} you {going to} do tomorrow?",'Вы спрашиваете о планах, значит, going to.'],
+ ['Ваш друг весь день был за рулём.','Ты устал? Давай я поведу.','f','dec',"You're tired? I{'ll} drive.",'Решение рождается прямо сейчас. Значит, will.'],
+ ['Официант спрашивает, что вы будете.','Я возьму паэлью.','f','dec',"I{'ll} have the paella.",'Решаете прямо сейчас, глядя в меню. Значит, will.'],
+ ['Вечером в кафе прикидываете, как вернуться.','Думаю, я поеду обратно сегодня вечером.','f','dec',"I think I{'ll} drive back tonight.",'Это ещё не план, вы прикидываете прямо сейчас. После «думаю» и «наверное» обычно идёт will.']
+];
+
+/* пояснения сразу после неверного ответа: [на «когда?», на «что важно?»], по порядку ситуаций */
+const H = [
+ ['Речь о том, как у вас обычно бывает. Это настоящее.','Это не идёт прямо сейчас, а бывает обычно. Значит, факт.'],
+ ['«Всегда беру» значит обычно. Это настоящее.','«Всегда» значит, что так бывает обычно. Это факт.'],
+ ['«Не вожу» значит, такое у вас правило. Это настоящее.','Это ваше обычное правило, а не то, что идёт в эту минуту. Значит, факт.'],
+ ['Музей открывается по расписанию каждый день. Это настоящее.','Расписание, это то, что бывает всегда. Значит, факт.'],
+ ['Вы за рулём прямо сейчас. Это настоящее.','Вы едете в эту минуту. Это процесс.'],
+ ['Вы лежите на пляже прямо сейчас. Это настоящее.','Это идёт в эту минуту. Значит, процесс.'],
+ ['Вы ждёте такси прямо сейчас. Это настоящее.','Ожидание идёт в эту минуту. Значит, процесс.'],
+ ['Проехали вы в прошлом, но важно то, что сейчас: вы устали. Поэтому настоящее.','Важно не само «проехал», а то, что сейчас вы устали. Это результат.'],
+ ['Вы говорите о своём опыте на сегодняшний день. Поэтому настоящее.','«Никогда» за всю жизнь до сегодня, это опыт. Он в колонке «результат».'],
+ ['Вы спрашиваете про опыт на сегодняшний день. Поэтому настоящее.','«Когда-нибудь» за всю жизнь, это опыт. Он в колонке «результат».'],
+ ['Ездили вы в прошлом, но «три раза» это ваш счёт на сегодня. Поэтому настоящее.','Сколько раз за жизнь, это опыт. Он в колонке «результат».'],
+ ['Вы спрашиваете про счёт на сегодня. Поэтому настоящее.','Сколько раз за жизнь, это опыт. Он в колонке «результат».'],
+ ['«В прошлом году», это прошлое.','Ничто не вмешивалось, связи с сегодняшним днём нет. Это просто факт.'],
+ ['«В понедельник», это момент в прошлом.','Назван момент в прошлом. Это просто факт.'],
+ ['Друг уже съездил, вы спрашиваете о прошлом.','Вам важен просто факт: на машине или нет.'],
+ ['Вы рассказываете, как добирались. Это прошлое.','Машину не брали, это просто факт в прошлом.'],
+ ['Звонок уже был. Это прошлое.','Вы ехали, и в этот процесс вмешался звонок. Значит, процесс.'],
+ ['Это было в тот вечер. Это прошлое.','Шёл ужин, и в него вмешался дождь. Значит, процесс.'],
+ ['Перелёт уже был. Это прошлое.','Вы спали, и в этот процесс вмешалась посадка. Значит, процесс.'],
+ ['Вы рассказываете о том, что уже случилось. Это прошлое.','Важно, что к моменту, когда вы приехали, поезд уже ушёл. Это результат к моменту в прошлом.'],
+ ['Суббота ещё впереди. Это будущее.','Вы решили заранее. Это план.'],
+ ['Машину вы ещё только возьмёте. Это будущее.','«Собираемся» значит, решение уже принято. Это план.'],
+ ['«Завтра» ещё впереди. Это будущее.','Вы спрашиваете о планах друга. Это план.'],
+ ['Повести машину вы только собираетесь. Это будущее.','Вы решаете прямо сейчас, увидев, что друг устал. Это решение сейчас.'],
+ ['Заказ ещё впереди. Это будущее.','Вы решаете прямо сейчас, глядя в меню. Это решение сейчас.'],
+ ['Поедете вы ещё только вечером. Это будущее.','Плана ещё нет, вы прикидываете сейчас. После «думаю» идёт will, как в решении сейчас.']
+];
+const TIMES={n:'Настоящее',p:'Прошлое',f:'Будущее'};
+const IMP={n:{fact:'Факт',proc:'Процесс',res:'Результат'},p:{fact:'Факт',proc:'Процесс',res:'Результат'},f:{plan:'План',dec:'Решение сейчас'}};
+const TENSE={n:{fact:'Present Simple',proc:'Present Continuous',res:'Present Perfect'},p:{fact:'Past Simple',proc:'Past Continuous',res:'Past Perfect'},f:{plan:'Going to',dec:'Will'}};
+
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;')}
+function plain(s){return s.replace(/[{}]/g,'')}
+function mark(s){return esc(s).replace(/\{([^}]*)\}/g,'<span class="h">$1</span>')}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+
+/* озвучка: только записи Артёма. Пока AUDIO пустой, кнопки звука нет. */
+const CLIPS={};
+function clip(id){ if(!CLIPS[id]){ const a=new Audio(AUDIO[id]); a.preload='auto'; CLIPS[id]=a; } return CLIPS[id]; }
+let cur=null;
+function speak(id,text,btn){
+  if(!AUDIO[id]) return;
+  if(cur){ try{cur.pause()}catch(e){} }
+  try{ cur=clip(id); cur.currentTime=0; if(btn){btn.classList.add('on'); cur.onended=()=>btn.classList.remove('on');}
+    const p=cur.play(); if(p&&p.catch) p.catch(()=>{ if(btn) btn.classList.remove('on'); }); }catch(e){}
+}
+window.addEventListener('load',()=>{ const k=Object.keys(AUDIO); let i=0; (function n(){ if(i<k.length){ clip(k[i++]); setTimeout(n,60); } })(); });
+const ICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor" stroke="none"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12" stroke-linecap="round"/></svg>';
+
+/* тренажёр */
+let order=[], qi=0, score=0, misses=[];
+function start(list){ order=shuffle(list||Q.map((_,i)=>i)); qi=0; score=0; misses=[]; render(); }
+function optBtn(key,lab){return `<button class="opt" data-k="${key}">${esc(lab)}</button>`}
+function lock(wrap,correct,picked){wrap.querySelectorAll('.opt').forEach(x=>{x.disabled=true; if(x.dataset.k===correct) x.classList.add('right'); else if(x===picked) x.classList.add('wrong'); else x.classList.add('dim');});}
+function render(){
+  const box=document.getElementById('quiz');
+  if(qi>=order.length){
+    const n=order.length;
+    box.innerHTML=`<span class="mono">Результат</span>
+      <div class="score">${score}<span>/${n}</span></div>
+      <p>${score===n?'Без единой ошибки. Схема у вас работает.':score>=n*.8?'Отличный результат. Посмотрите фразы, где была ошибка.':'Повторите фразы ниже и пройдите их ещё раз.'}</p>
+      ${misses.length?`<div class="misses">${misses.map(i=>`<div><b>${esc(plain(Q[i][4]))}</b><span>${esc(Q[i][1])} · ${TENSE[Q[i][2]][Q[i][3]]}</span></div>`).join('')}</div>`:''}
+      <div class="row">${misses.length?'<button class="btn primary" id="rep">Повторить мои ошибки</button>':''}<button class="btn${misses.length?'':' primary'}" id="again">Пройти заново</button></div>`;
+    const m=misses.slice(); const r=box.querySelector('#rep'); if(r) r.onclick=()=>start(m);
+    box.querySelector('#again').onclick=()=>start(); return;
+  }
+  const i=order[qi], q=Q[i], t=q[2], imp=q[3];
+  let firstTry=true;
+  box.innerHTML=`<div class="qtop"><span class="mono">${qi+1} из ${order.length}</span><span class="mono">Верно: ${score}</span></div>
+    <div class="bar"><i style="width:${qi/order.length*100}%"></i></div>
+    <span class="scene">${esc(q[0])}</span>
+    <div class="qru">«${esc(q[1])}»</div>
+    <div class="step" id="st1"><span class="sh"><b>1</b> · Когда?</span>
+      <div class="opts">${['n','p','f'].map(k=>optBtn(k,TIMES[k])).join('')}</div></div>
+    <div class="step" id="st2"></div><div id="out"></div>`;
+  const st1=box.querySelector('#st1');
+  st1.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{
+    const ok=b.dataset.k===t;
+    if(!ok){ firstTry=false; st1.insertAdjacentHTML('beforeend',`<div class="hint">${esc(H[i][0])}</div>`); }
+    lock(st1,t,b); step2();
+  });
+  function step2(){
+    const keys=Object.keys(IMP[t]);
+    const st=box.querySelector('#st2');
+    st.innerHTML=`<span class="sh"><b>2</b> · Что важно?</span>
+      <div class="opts${keys.length===2?' two':''}">${keys.map(k=>optBtn(k,IMP[t][k])).join('')}</div>`;
+    st.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{
+      const ok=b.dataset.k===imp;
+      if(!ok){ firstTry=false; st.insertAdjacentHTML('beforeend',`<div class="hint">${esc(H[i][1])}</div>`); }
+      lock(st,imp,b); finish();
+    });
+  }
+  function finish(){
+    if(firstTry) score++; else misses.push(i);
+    const why=q[5];
+    const out=box.querySelector('#out');
+    out.innerHTML=`<div class="res">
+      <span class="tname">${TENSE[t][imp]}</span>
+      <div class="rtop"><div class="ph">${mark(q[4])}</div>${AUDIO['q'+i]?'<button class="say" id="sq" aria-label="Послушать">'+ICON+'</button>':''}</div>
+      <div class="why">${esc(why)}</div>
+    </div>
+    <button class="btn wide next" id="next" style="margin-top:10px">${qi+1<order.length?'Дальше':'Результат'}</button>`;
+    const sq=out.querySelector('#sq'); if(sq){ sq.onclick=()=>speak('q'+i,plain(q[4]),sq); speak('q'+i,plain(q[4]),sq); }
+    const nx=out.querySelector('#next'); nx.onclick=()=>{qi++; render(); const r=box.getBoundingClientRect(); if(r.top<0||r.top>innerHeight*.4) box.scrollIntoView({block:'start',behavior:'smooth'});};
+    const r=nx.getBoundingClientRect(); if(r.bottom>innerHeight) nx.scrollIntoView({block:'end',behavior:'smooth'});
+  }
+}
+
+document.querySelectorAll('[data-video]').forEach(a=>{ if(VIDEO){ a.href=VIDEO; a.hidden=false; } });
+start();
+</script>
+</body></html>
